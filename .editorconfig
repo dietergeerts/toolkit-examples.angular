@@ -1,2 +1,2 @@
-[*.html]
+[{*.html,*.hbs}]
 indent_size = 2

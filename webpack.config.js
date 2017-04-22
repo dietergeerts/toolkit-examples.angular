@@ -3,9 +3,10 @@ const StaticSiteGeneratorPlugin = require('static-site-generator-webpack-plugin'
 const defaultJsDomView = require('jsdom').jsdom().defaultView;
 
 module.exports = {
+    target: 'node',
     context: path.resolve(__dirname, './src'),
     entry: {
-        fabricator: './fabricator.js'
+        fabricator: './fabricator/fabricator.js'
     },
     output: {
         filename: '[name].bundle.js',

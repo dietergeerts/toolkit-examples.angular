@@ -9,22 +9,35 @@ const materials = collectMaterials();
 const viewsByPath = {'': indexView, 'materials': materialsView};
 
 module.exports = function render(locals) {
-    const bodyView = viewsByPath[locals.path.split('/')[1]];
-    const body = bodyView({materials});
-    return layout({project, materials, body});
+    const pathArray = locals.path.split('/');
+    const bodyView = viewsByPath[pathArray[1]];
+    const materialGroup = bodyView === materialsView ? pathArray[2] : null;
+    return layout({
+        project: project,
+        materials: materials,
+        body: bodyView({
+            materials: materialGroup && materials[materialGroup] || materials
+        })
+    });
 };
 
 function collectMaterials() {
-    return getSubDirs('./src/toolkit/materials')
-        .reduce((result, value) => {
-            result[value] = {};
+    const materialsDir = './src/toolkit/materials';
+    return mapSubDirs(materialsDir,
+        groupDir => mapSubDirs(path.join(materialsDir, groupDir),
+            itemDir => ({})));
+}
+
+function mapSubDirs(dir, value) {
+    return getSubDirs(dir)
+        .reduce((result, subDir) => {
+            result[subDir] = value(subDir);
             return result;
         }, {});
 }
 
 function getSubDirs(dir) {
-    return fs
-        .readdirSync(dir)
+    return fs.readdirSync(dir)
         .filter(file => fs
             .statSync(path.join(dir, file))
             .isDirectory());

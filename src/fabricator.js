@@ -1,3 +1,9 @@
+const project = require('../package.json');
+const layout = require('./layout.hbs');
+
 module.exports = function render(locals) {
-    return '<html><h1>MY GENERATED PAGE</h1></html>';
+    return layout({
+        project: project,
+        body: require('./index.hbs')()
+    });
 };

@@ -13,18 +13,17 @@ module.exports = {
         libraryTarget: 'umd'
     },
     module: {
-        rules: [
-            //     {
-            //     test: /\.html$/,
-            //     loader: 'raw-loader'
-            // }
-        ]
+        rules: [{
+            test: /\.hbs$/,
+            loader: 'handlebars-loader'
+        }]
     },
     plugins: [
         new StaticSiteGeneratorPlugin({
             entry: 'fabricator',
             crawl: true,
-            globals: defaultJsDomView
+            globals: defaultJsDomView,
+            locals: {}
         })
     ]
 };

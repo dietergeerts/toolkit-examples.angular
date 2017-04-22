@@ -21,8 +21,9 @@ module.exports = {
     },
     plugins: [
         new StaticSiteGeneratorPlugin({
-            entry: 'fabricator',
             crawl: true,
+            entry: 'fabricator',
+            paths: ['/'],
             globals: defaultJsDomView,
             locals: {}
         })

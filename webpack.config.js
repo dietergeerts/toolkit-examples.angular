@@ -10,7 +10,10 @@ module.exports = {
     },
     resolve: {
         alias: {
-            toolkit: path.resolve(__dirname, './src/toolkit')
+            project: path.resolve(__dirname, './'),
+            toolkit: path.resolve(__dirname, './src/toolkit'),
+            layouts: path.resolve(__dirname, './src/fabricator/layouts'),
+            views: path.resolve(__dirname, './src/fabricator/views')
         }
     },
     output: {

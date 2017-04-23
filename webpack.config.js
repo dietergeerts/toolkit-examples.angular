@@ -8,6 +8,11 @@ module.exports = {
     entry: {
         fabricator: './fabricator/fabricator.js'
     },
+    resolve: {
+        alias: {
+            toolkit: path.resolve(__dirname, './src/toolkit')
+        }
+    },
     output: {
         filename: '[name].bundle.js',
         path: path.resolve(__dirname, './dist'),

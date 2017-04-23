@@ -21,11 +21,17 @@ module.exports = function render(locals) {
     });
 };
 
+function collectMaterial(group, item) {
+    return {
+        preview: require(`toolkit/materials/${group}/${item}/${item}.preview.hbs`)()
+    };
+}
+
 function collectMaterials() {
     const materialsDir = './src/toolkit/materials';
     return mapSubDirs(materialsDir,
-        groupDir => mapSubDirs(path.join(materialsDir, groupDir),
-            itemDir => ({})));
+        group => mapSubDirs(path.join(materialsDir, group),
+            item => collectMaterial(group, item)));
 }
 
 function mapSubDirs(dir, value) {

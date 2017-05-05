@@ -2,35 +2,33 @@ const fs = require('fs');
 const path = require('path');
 
 const PROJECT = require('project/package.json');
-// TODO: Get the alias for toolkit out of webpack.config.js!
-// const TOOLKIT_PATH = WEBPACK_CONFIG.resolve.alias.toolkit;
-const TOOLKIT_PATH = './src/toolkit';
+const TOOLKIT_PATH = PROJECT['directories']['lib'];
 
 const MATERIALS_DIR = 'materials';
 const TEMPLATES_DIR = 'templates';
 
 const PAGE_TYPE = {
-    DEFAULT: 'DEFAULT',
-    MATERIAL: 'MATERIAL',
+    INDEX: 'INDEX',
+    MATERIALS: 'MATERIALS',
     TEMPLATE: 'TEMPLATE',
     for: path => ({
-        [MATERIALS_DIR]: PAGE_TYPE.MATERIAL,
+        [MATERIALS_DIR]: PAGE_TYPE.MATERIALS,
         [TEMPLATES_DIR]: PAGE_TYPE.TEMPLATE
-    }[path.split('/')[1]] || PAGE_TYPE.DEFAULT)
+    }[path.split('/')[1]] || PAGE_TYPE.INDEX)
 };
 
 const VIEWS = {
-    [PAGE_TYPE.DEFAULT]: require('views/index.hbs'),
-    [PAGE_TYPE.MATERIAL]: require('views/materials.hbs'),
-    [PAGE_TYPE.TEMPLATE]: require('views/template.hbs'),
-    get: path => VIEWS[PAGE_TYPE.for(path)]
+    [PAGE_TYPE.INDEX]: require('fabricator/views/index.hbs'),
+    [PAGE_TYPE.MATERIALS]: require('fabricator/views/materials.hbs'),
+    [PAGE_TYPE.TEMPLATE]: require('fabricator/views/template.hbs'),
+    for: path => VIEWS[PAGE_TYPE.for(path)]
 };
 
 const LAYOUTS = {
-    [PAGE_TYPE.DEFAULT]: require('layouts/default.hbs'),
-    [PAGE_TYPE.MATERIAL]: require('layouts/materials.hbs'),
-    [PAGE_TYPE.TEMPLATE]: require('layouts/template.hbs'),
-    get: path => LAYOUTS[PAGE_TYPE.for(path)]
+    [PAGE_TYPE.INDEX]: require('fabricator/layouts/fabricator.hbs'),
+    [PAGE_TYPE.MATERIALS]: require('fabricator/layouts/fabricator.hbs'),
+    [PAGE_TYPE.TEMPLATE]: require('fabricator/layouts/template.hbs'),
+    for: path => LAYOUTS[PAGE_TYPE.for(path)]
 };
 
 const MATERIALS = mapDirs(
@@ -62,10 +60,10 @@ function getDirs(dir) {
 
 module.exports = function render(locals) {
     const materialGroup = getMaterialGroup(locals.path);
-    return LAYOUTS.get(locals.path)({
+    return LAYOUTS.for(locals.path)({
         project: PROJECT,
         materials: MATERIALS,
-        view: VIEWS.get(locals.path)({
+        view: VIEWS.for(locals.path)({
             materialGroup: materialGroup,
             materials: MATERIALS[materialGroup]
         })

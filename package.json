@@ -2,7 +2,13 @@
   "name": "toolkit-examples.angular",
   "version": "1.0.0",
   "description": "Example toolkit for use with Angular projects",
-  "main": "index.html",
+  "files": [
+    "./dist"
+  ],
+  "main": "./dist/index.html",
+  "directories": {
+    "lib": "./src/toolkit"
+  },
   "scripts": {
     "prestart": "npm install",
     "start": "webpack-dev-server --config webpack.config.js",

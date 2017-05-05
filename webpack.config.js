@@ -12,8 +12,7 @@ module.exports = {
         alias: {
             project: path.resolve(__dirname, './'),
             toolkit: path.resolve(__dirname, './src/toolkit'),
-            layouts: path.resolve(__dirname, './src/fabricator/layouts'),
-            views: path.resolve(__dirname, './src/fabricator/views')
+            fabricator: path.resolve(__dirname, './src/fabricator'),
         }
     },
     output: {

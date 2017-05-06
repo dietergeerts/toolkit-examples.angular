@@ -5,7 +5,7 @@ declare let __PROCESS__: {ENV: string};
 
 export const IN_PRODUCTION: boolean = __PROCESS__.ENV === 'prod';
 
-export abstract class PreviewModule {
+export abstract class OptionalBootstrapModule {
 
     constructor(private _document: any,
                 private _component: any) {

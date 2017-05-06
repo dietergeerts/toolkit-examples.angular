@@ -18,7 +18,13 @@ module.exports = [
         module: {
             rules: [{
                 test: /\.ts$/,
-                loader: 'awesome-typescript-loader'
+                loaders: [
+                    'awesome-typescript-loader',
+                    'angular2-template-loader'
+                ]
+            }, {
+                test: /\.html$/,
+                loader: 'raw-loader'
             }]
         },
         plugins: [

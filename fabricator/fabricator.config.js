@@ -23,7 +23,7 @@ module.exports = function (settings) {
             rules: [{
                 test: /\.hbs$/,
                 loader: 'handlebars-loader'
-            }]
+            }].concat(settings.moduleRules || [])
         },
         plugins: [
             new webpack.DefinePlugin({

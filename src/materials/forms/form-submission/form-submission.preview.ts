@@ -1,10 +1,10 @@
 import { Component, Inject, NgModule } from '@angular/core';
 import { BrowserModule, DOCUMENT } from '@angular/platform-browser';
-import { PreviewModule } from '../../../toolkit.utils';
+import { OptionalBootstrapModule } from '../../../toolkit.utils';
 
 @Component({
     selector: 'tk-form-submission-preview',
-    template: `<h4>FORM SUBMISSION 2 PREVIEW</h4>`
+    templateUrl: './form-submission.preview.html'
 })
 export class FormSubmissionPreviewComponent {
 
@@ -21,7 +21,7 @@ export class FormSubmissionPreviewComponent {
         BrowserModule
     ]
 })
-export class FormSubmissionPreviewModule extends PreviewModule {
+export class FormSubmissionPreviewModule extends OptionalBootstrapModule {
 
     constructor(@Inject(DOCUMENT) document: any) {
         super(document, FormSubmissionPreviewComponent);

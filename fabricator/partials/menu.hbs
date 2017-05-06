@@ -1,6 +1,6 @@
 <div>
-  <a href="/" title="Home">Home</a>
+  <a href="{{BASE_URL}}" title="Home">Home</a>
   {{#each materialGroups}}
-    <a href="/{{../MATERIALS_DIR}}/{{@key}}" title="{{@key}}">{{@key}}</a>
+    <a href="{{../BASE_URL}}{{../MATERIALS_DIR}}/{{@key}}" title="{{@key}}">{{@key}}</a>
   {{/each}}
 </div>

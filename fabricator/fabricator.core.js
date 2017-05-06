@@ -17,7 +17,7 @@ module.exports = function createRenderer(collectMaterial) {
         for: path => ({
             [MATERIALS_DIR]: PAGE_TYPE.MATERIALS,
             [TEMPLATES_DIR]: PAGE_TYPE.TEMPLATE
-        }[path.split('/')[1]] || PAGE_TYPE.INDEX)
+        }[path.split('/')[0]] || PAGE_TYPE.INDEX)
     };
 
     const LAYOUTS = {
@@ -36,7 +36,9 @@ module.exports = function createRenderer(collectMaterial) {
 
     return function render(locals) {
         const materialGroup = getMaterialGroup(locals.path);
+        const baseUrl = getBaseUrl(locals.path);
         return LAYOUTS.for(locals.path)({
+            BASE_URL: baseUrl,
             MATERIALS_DIR: MATERIALS_DIR,
             TEMPLATES_DIR: TEMPLATES_DIR,
             materialGroups: MATERIALS,
@@ -49,15 +51,19 @@ module.exports = function createRenderer(collectMaterial) {
         });
     };
 
+    function getBaseUrl(path) {
+        return `./${'../'.repeat(path.split('/').length - 1)}`;
+    }
+
     function getMaterialGroup(path) {
         return (new RegExp(`${MATERIALS_DIR}\/(.+?)\/`, 'g').exec(path + '/') || []).pop();
     }
 
     function collectMaterials(collectMaterial) {
         return mapDirs(
-            path.join(TOOLKIT_PATH, MATERIALS_DIR),
+            path.join(__TOOLKIT_PATH__, MATERIALS_DIR),
             groupDir => mapDirs(
-                path.join(TOOLKIT_PATH, MATERIALS_DIR, groupDir),
+                path.join(__TOOLKIT_PATH__, MATERIALS_DIR, groupDir),
                 itemDir => collectMaterial(`${MATERIALS_DIR}/${groupDir}/${itemDir}`, itemDir)));
     }
 };

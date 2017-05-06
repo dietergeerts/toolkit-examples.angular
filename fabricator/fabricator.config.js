@@ -27,11 +27,11 @@ module.exports = function (settings) {
         },
         plugins: [
             new webpack.DefinePlugin({
-                TOOLKIT_PATH: JSON.stringify(path.resolve(settings.projectPath, './src'))
+                __TOOLKIT_PATH__: JSON.stringify(path.resolve(settings.projectPath, './src'))
             }),
             new StaticSiteGeneratorPlugin({
                 crawl: true,
-                paths: ['/'],
+                paths: [''],
                 globals: defaultJsDomView,
                 locals: {
                     scripts: settings.scripts || []

@@ -1,6 +1,10 @@
 import { ApplicationRef } from '@angular/core';
 import { DashCase } from 'cerialize';
 
+declare let __PROCESS__: {ENV: string};
+
+export const IN_PRODUCTION: boolean = __PROCESS__.ENV === 'prod';
+
 export abstract class PreviewModule {
 
     constructor(private _document: any,

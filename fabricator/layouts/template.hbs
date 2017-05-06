@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <base href="/"/>
+    <base href="{{BASE_URL}}"/>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>{{project.name}} v{{project.version}}</title>
@@ -9,7 +9,7 @@
 <body>
 {{{view}}}
 {{#each scripts}}
-  <script src="/{{this}}"></script>
+  <script src="{{../BASE_URL}}{{this}}"></script>
 {{/each}}
 </body>
 </html>

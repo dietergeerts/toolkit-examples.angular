@@ -1,4 +1,5 @@
 const path = require('path');
+const webpack = require('webpack');
 const fabricatorConfig = require('./fabricator/fabricator.angular.config');
 
 module.exports = [
@@ -19,7 +20,19 @@ module.exports = [
                 test: /\.ts$/,
                 loader: 'awesome-typescript-loader'
             }]
-        }
+        },
+        plugins: [
+            new webpack.DefinePlugin({
+                '__PROCESS__': {
+                    'ENV': JSON.stringify(process.env.NODE_ENV)
+                }
+            }),
+            // Fix for https://github.com/angular/angular/issues/11580, in production!
+            new webpack.ContextReplacementPlugin(
+                /angular(\\|\/)core(\\|\/)(esm(\\|\/)src|src)(\\|\/)linker/,
+                __dirname
+            )
+        ]
     },
     fabricatorConfig({
         projectPath: path.resolve(__dirname),

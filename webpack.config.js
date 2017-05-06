@@ -1,6 +1,5 @@
 const path = require('path');
-const StaticSiteGeneratorPlugin = require('static-site-generator-webpack-plugin');
-const defaultJsDomView = require('jsdom').jsdom().defaultView;
+const fabricatorConfig = require('./fabricator/fabricator.config');
 
 module.exports = [
     {
@@ -19,37 +18,8 @@ module.exports = [
             }]
         }
     },
-    {
-        target: 'node',
-        context: path.resolve(__dirname, './src'),
-        entry: {
-            fabricator: './fabricator.js'
-        },
-        resolve: {
-            alias: {
-                project: path.resolve(__dirname, './'),
-                toolkit: path.resolve(__dirname, './src')
-            }
-        },
-        output: {
-            filename: '[name].bundle.js',
-            path: path.resolve(__dirname, './dist'),
-            libraryTarget: 'umd'
-        },
-        module: {
-            rules: [{
-                test: /\.hbs$/,
-                loader: 'handlebars-loader'
-            }]
-        },
-        plugins: [
-            new StaticSiteGeneratorPlugin({
-                crawl: true,
-                entry: 'fabricator',
-                paths: ['/'],
-                globals: defaultJsDomView,
-                locals: {}
-            })
-        ]
-    }
+    fabricatorConfig({
+        projectPath: path.resolve(__dirname),
+        scripts: ['toolkit.bundle.js']
+    })
 ];

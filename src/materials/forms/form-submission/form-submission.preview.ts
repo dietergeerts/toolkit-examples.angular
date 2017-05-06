@@ -1,17 +1,17 @@
-import { Component, NgModule } from "@angular/core";
-import { platformBrowserDynamic } from "@angular/platform-browser-dynamic";
-import { BrowserModule } from "@angular/platform-browser";
+import { Component, Inject, NgModule } from '@angular/core';
+import { BrowserModule, DOCUMENT } from '@angular/platform-browser';
+import { PreviewModule } from '../../../toolkit.utils';
 
 @Component({
     selector: 'tk-form-submission-preview',
-    template: `<h4>FORM SUBMISSION PREVIEW</h4>`
+    template: `<h4>FORM SUBMISSION 2 PREVIEW</h4>`
 })
 export class FormSubmissionPreviewComponent {
 
 }
 
 @NgModule({
-    bootstrap: [
+    entryComponents: [
         FormSubmissionPreviewComponent
     ],
     declarations: [
@@ -21,8 +21,9 @@ export class FormSubmissionPreviewComponent {
         BrowserModule
     ]
 })
-export class FormSubmissionPreviewModule {
+export class FormSubmissionPreviewModule extends PreviewModule {
 
+    constructor(@Inject(DOCUMENT) document: any) {
+        super(document, FormSubmissionPreviewComponent);
+    }
 }
-
-platformBrowserDynamic().bootstrapModule(FormSubmissionPreviewModule);

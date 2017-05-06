@@ -1,5 +1,10 @@
-module.exports = require('./fabricator.core')();
+module.exports = require('./fabricator.core')(collectMaterial);
 
+function collectMaterial(itemPath, itemDir) {
+    return {
+        preview: `<tk-${itemDir}-preview>Loading...</tk-${itemDir}-preview>`,
+    };
+}
 
 
 // function collectMaterial(itemPath, itemDir) {

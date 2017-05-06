@@ -1,5 +1,5 @@
 const path = require('path');
-const fabricatorConfig = require('./fabricator/fabricator.config');
+const fabricatorConfig = require('./fabricator/fabricator.angular.config');
 
 module.exports = [
     {
@@ -10,6 +10,9 @@ module.exports = [
         output: {
             filename: '[name].bundle.js',
             path: path.resolve(__dirname, './dist')
+        },
+        resolve: {
+            extensions: ['.js', '.ts']
         },
         module: {
             rules: [{

@@ -1,14 +1,14 @@
 const fs = require('fs');
 const path = require('path');
 
-module.exports = function createRenderer() {
+module.exports = function createRenderer(collectMaterial) {
 
     const MATERIALS_DIR = 'materials';
     const TEMPLATES_DIR = 'templates';
 
     const PROJECT = require('project/package.json');
 
-    const MATERIALS = collectMaterials();
+    const MATERIALS = collectMaterials(collectMaterial);
 
     const PAGE_TYPE = {
         INDEX: 'INDEX',
@@ -53,14 +53,12 @@ module.exports = function createRenderer() {
         return (new RegExp(`${MATERIALS_DIR}\/(.+?)\/`, 'g').exec(path + '/') || []).pop();
     }
 
-    function collectMaterials() {
+    function collectMaterials(collectMaterial) {
         return mapDirs(
             path.join(TOOLKIT_PATH, MATERIALS_DIR),
             groupDir => mapDirs(
                 path.join(TOOLKIT_PATH, MATERIALS_DIR, groupDir),
-                itemDir => ({
-                    preview: '<h6>TESTTESTTEST</h6>'
-                })));
+                itemDir => collectMaterial(`${MATERIALS_DIR}/${groupDir}/${itemDir}`, itemDir)));
     }
 };
 

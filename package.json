@@ -7,7 +7,6 @@
   ],
   "main": "./dist/index.html",
   "directories": {
-    "toolkit": "./src",
     "lib": "./lib"
   },
   "scripts": {

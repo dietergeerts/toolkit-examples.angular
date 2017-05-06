@@ -1,6 +1,7 @@
 const path = require('path');
 const StaticSiteGeneratorPlugin = require('static-site-generator-webpack-plugin');
 const defaultJsDomView = require('jsdom').jsdom().defaultView;
+const webpack = require('webpack');
 
 module.exports = function (settings) {
     return {
@@ -25,6 +26,9 @@ module.exports = function (settings) {
             }]
         },
         plugins: [
+            new webpack.DefinePlugin({
+                TOOLKIT_PATH: JSON.stringify(path.resolve(settings.projectPath, './src'))
+            }),
             new StaticSiteGeneratorPlugin({
                 crawl: true,
                 paths: ['/'],

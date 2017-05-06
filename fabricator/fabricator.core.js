@@ -7,7 +7,6 @@ module.exports = function createRenderer() {
     const TEMPLATES_DIR = 'templates';
 
     const PROJECT = require('project/package.json');
-    const TOOLKIT_PATH = PROJECT.directories.toolkit;
 
     const MATERIALS = collectMaterials();
 

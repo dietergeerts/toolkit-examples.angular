@@ -2,12 +2,21 @@ const path = require('path');
 const StaticSiteGeneratorPlugin = require('static-site-generator-webpack-plugin');
 const defaultJsDomView = require('jsdom').jsdom().defaultView;
 const webpack = require('webpack');
+const Rx = require('rxjs/Rx');
 
 module.exports = function (settings) {
+
+    const assetsDone = new Rx.ReplaySubject(1);
+    settings.assetsManifest
+        ? settings.assetsManifest.on('done', (manifest) => assetsDone.next(manifest))
+        : assetsDone.next();
+
     return {
         target: 'node',
         context: path.resolve(__dirname),
-        entry: settings.entry || './fabricator.js',
+        entry: {
+            fabricator: settings.entry || './fabricator.js'
+        },
         resolve: {
             alias: {
                 project: path.resolve(settings.projectPath, './'),
@@ -15,7 +24,7 @@ module.exports = function (settings) {
             }
         },
         output: {
-            filename: 'fabricator.bundle.js',
+            filename: '[name].js',
             path: path.resolve(settings.projectPath, './dist'),
             libraryTarget: 'umd'
         },
@@ -34,7 +43,7 @@ module.exports = function (settings) {
                 paths: [''],
                 globals: defaultJsDomView,
                 locals: {
-                    scripts: settings.scripts || []
+                    assetsDone: assetsDone
                 }
             })
         ]

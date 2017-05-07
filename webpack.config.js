@@ -1,6 +1,9 @@
 const path = require('path');
 const webpack = require('webpack');
+const AssetsManifest = require('webpack-assets-manifest');
 const fabricatorConfig = require('./fabricator/fabricator.angular.config');
+
+const assetsManifest = new AssetsManifest({publicPath: 'assets/'});
 
 module.exports = [
     {
@@ -9,8 +12,8 @@ module.exports = [
             toolkit: './toolkit.ts'
         },
         output: {
-            filename: '[name].bundle.js',
-            path: path.resolve(__dirname, './dist')
+            filename: '[name].[hash].js',
+            path: path.resolve(__dirname, './dist/assets')
         },
         resolve: {
             extensions: ['.js', '.ts']
@@ -28,6 +31,7 @@ module.exports = [
             }]
         },
         plugins: [
+            assetsManifest,
             new webpack.DefinePlugin({
                 '__PROCESS__': {
                     'ENV': JSON.stringify(process.env.NODE_ENV)
@@ -42,6 +46,6 @@ module.exports = [
     },
     fabricatorConfig({
         projectPath: path.resolve(__dirname),
-        scripts: ['toolkit.bundle.js']
+        assetsManifest: assetsManifest
     })
 ];

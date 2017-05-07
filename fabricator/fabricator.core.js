@@ -37,19 +37,26 @@ module.exports = function createRenderer(collectMaterial) {
     return function render(locals) {
         const materialGroup = getMaterialGroup(locals.path);
         const baseUrl = getBaseUrl(locals.path);
-        return LAYOUTS.for(locals.path)({
-            BASE_URL: baseUrl,
-            MATERIALS_DIR: MATERIALS_DIR,
-            TEMPLATES_DIR: TEMPLATES_DIR,
-            materialGroups: MATERIALS,
-            project: PROJECT,
-            scripts: locals.scripts,
-            view: VIEWS.for(locals.path)({
-                materialGroupName: materialGroup,
-                materialGroup: MATERIALS[materialGroup]
-            })
-        });
+        return locals.assetsDone
+            .first()
+            .map((manifest) => LAYOUTS.for(locals.path)({
+                BASE_URL: baseUrl,
+                MATERIALS_DIR: MATERIALS_DIR,
+                TEMPLATES_DIR: TEMPLATES_DIR,
+                materialGroups: MATERIALS,
+                project: PROJECT,
+                scripts: getAssetScripts(manifest.assets),
+                view: VIEWS.for(locals.path)({
+                    materialGroupName: materialGroup,
+                    materialGroup: MATERIALS[materialGroup]
+                })
+            }))
+            .toPromise();
     };
+
+    function getAssetScripts(assets) {
+        return Object.keys(assets).filter((key) => key.endsWith('.js')).map((key) => assets[key]);
+    }
 
     function getBaseUrl(path) {
         return `./${'../'.repeat(path.split('/').length - 1)}`;

@@ -6,6 +6,8 @@ const Rx = require('rxjs/Rx');
 
 module.exports = function (settings) {
 
+    // TODO: Find a way to just require the optional file, so we are being updated automatically,
+    // though it seems that after the file is regenerated, the toolkit is also rebuild, don't know why...
     const assetsDone = new Rx.ReplaySubject(1);
     settings.assetsManifest
         ? settings.assetsManifest.on('done', (manifest) => assetsDone.next(manifest))

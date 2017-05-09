@@ -54,16 +54,16 @@ module.exports = function createRenderer(collectMaterial) {
             .toPromise();
     };
 
-    function getAssetScripts(assets) {
-        return Object.keys(assets).filter((key) => key.endsWith('.js')).map((key) => assets[key]);
-    }
-
     function getBaseUrl(path) {
         return `./${'../'.repeat(path.split('/').length - 1)}`;
     }
 
     function getMaterialGroup(path) {
         return (new RegExp(`${MATERIALS_DIR}\/(.+?)\/`, 'g').exec(path + '/') || []).pop();
+    }
+
+    function getAssetScripts(assets) {
+        return Object.keys(assets).filter((key) => key.endsWith('.js')).map((key) => assets[key]);
     }
 
     function collectMaterials(collectMaterial) {

@@ -1,9 +1,20 @@
 const path = require('path');
 const webpack = require('webpack');
 const AssetsManifest = require('webpack-assets-manifest');
+const FaviconsWebpackPlugin = require('favicons-webpack-plugin');
 const fabricatorConfig = require('./fabricator/fabricator.angular.config');
 
-const assetsManifest = new AssetsManifest({publicPath: 'assets/'});
+const assetsManifest = new AssetsManifest({
+    output: 'assets-manifest.json',
+    publicPath: 'assets/'
+});
+
+const faviconsManifest = new FaviconsWebpackPlugin({
+    statsFilename: 'favicons-manifest.json',
+    logo: './assets/images/favicon.png',
+    prefix: 'favicons/',
+    emitStats: true
+});
 
 module.exports = [
     {
@@ -13,7 +24,8 @@ module.exports = [
         },
         output: {
             filename: '[name].[hash].js',
-            path: path.resolve(__dirname, './dist/assets')
+            path: path.resolve(__dirname, './dist/assets'),
+            publicPath: "assets"
         },
         resolve: {
             extensions: ['.js', '.ts']
@@ -32,6 +44,7 @@ module.exports = [
         },
         plugins: [
             assetsManifest,
+            faviconsManifest,
             new webpack.DefinePlugin({
                 '__PROCESS__': {
                     'ENV': JSON.stringify(process.env.NODE_ENV)
